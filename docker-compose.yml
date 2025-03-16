@@ -1,0 +1,58 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        user: alyza
+        uid: 1000
+    image: aorus22/rently-backend:v2
+    container_name: rently-backend
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - rently-volume:/var/www
+    networks:
+      - rently-network
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+
+  nginx:
+    image: nginx:alpine
+    container_name: rently-nginx
+    restart: unless-stopped
+    ports:
+      - 8002:80
+    volumes:
+      - rently-volume:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - rently-network
+    depends_on:
+      - app
+
+  mysql:
+    image: mysql:8.0
+    container_name: rently-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: rently
+      MYSQL_USER: rently_user
+      MYSQL_PASSWORD: rently_password
+    ports:
+      - 3307:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - rently-network
+
+networks:
+  rently-network:
+    driver: bridge
+
+volumes:
+  rently-volume:
+  mysql-data:
