@@ -44,7 +44,7 @@ RUN composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progr
 USER root
 
 # Jalankan entrypoint untuk memastikan izin runtime benar
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./Docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

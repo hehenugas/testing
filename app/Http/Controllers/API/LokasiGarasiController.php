@@ -14,4 +14,13 @@ class LokasiGarasiController extends Controller
         $lokasiGarasi = LokasiGarasi::all();
         return response()->json($lokasiGarasi);
     }
+
+    public function show($id)
+    {
+        $lokasigarasi = LokasiGarasi::find($id);
+        if (!$lokasigarasi) {
+            return response()->json(['message' => 'Lokasi tidak ditemukan'], 404);
+        }
+        return response()->json($lokasigarasi);
+    }
 }
