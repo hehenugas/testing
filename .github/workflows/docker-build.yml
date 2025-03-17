@@ -17,8 +17,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Build Docker Image 
-        run: docker build -t "${{ secrets.DOCKER_IMAGE }}" --no-cache -f Docker/Dockerfile .
+      - name: Build Docker Image
+        run: docker build -t "${{ secrets.DOCKER_IMAGE }}" --no-cache .
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
